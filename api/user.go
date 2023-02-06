@@ -3,10 +3,12 @@ package api
 import (
 	"net/http"
 	"strings"
+	"testing"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/lib/pq"
+	"github.com/stretchr/testify/require"
 
 	db "github.com/kenmobility/simplebank/db/sqlc"
 	"github.com/kenmobility/simplebank/util"
@@ -35,7 +37,7 @@ func (server *Server) createUser(ctx *gin.Context) {
 		return
 	}
 
-	hashedPassword, err := util.HashedPassword(req.Password)
+	hashedPassword, err := util.HashPassword(req.Password)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
@@ -71,4 +73,18 @@ func (server *Server) createUser(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, rsp)
+}
+
+func randomUser(t *testing.T) (user db.User, password string) {
+	password = util.RandomString(6)
+	hashedPassword, err := util.HashPassword(password)
+	require.NoError(t, err)
+
+	user = db.User{
+		Username:       util.RandomOwner(),
+		HashedPassword: hashedPassword,
+		FullName:       util.RandomOwner(),
+		Email:          util.RandomEmail(),
+	}
+	return
 }

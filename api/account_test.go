@@ -98,7 +98,7 @@ func TestGetAccountAPI(t *testing.T) {
 			// build stubs
 			tc.buildStubs(store)
 			// start test server and send request
-			server := NewServer(store)
+			server := newTestServer(t, store)
 
 			recorder := httptest.NewRecorder() //don't start a real server, instead use recorder feature of httptest package to record the response of the API request
 

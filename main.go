@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 
 	_ "github.com/lib/pq"
@@ -12,6 +13,7 @@ import (
 )
 
 func main() {
+	fmt.Println("starting main...")
 	config, err := util.LoadConfig(".")
 	if err != nil {
 		log.Fatal("cannot load config:", err)
@@ -21,6 +23,8 @@ func main() {
 	if err != nil {
 		log.Fatal("cannot connect to db:", err)
 	}
+
+	defer conn.Close()
 
 	store := db.NewStore(conn)
 	server, err := api.NewServer(config, store)

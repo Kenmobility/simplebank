@@ -22,7 +22,7 @@ type Server struct {
 
 // NewServer creates a new HTTP server and set up routing.
 func NewServer(config util.Config, store db.Store) (*Server, error) {
-	tokenMaker, err := token.NewPasetoMaker(config.TokenSymmetricKey)
+	pasetoMaker, err := token.NewPasetoMaker(config.TokenSymmetricKey)
 	if err != nil {
 		return nil, fmt.Errorf("cannot create token maker: %w", err)
 	}
@@ -30,7 +30,7 @@ func NewServer(config util.Config, store db.Store) (*Server, error) {
 	server := &Server{
 		config:     config,
 		store:      store,
-		tokenMaker: tokenMaker,
+		tokenMaker: pasetoMaker,
 	}
 
 	// register custom validators with Gin
@@ -62,7 +62,7 @@ func (server *Server) setUpRouter() {
 
 // Start runs the HTTP server on a specific address.
 func (server *Server) Start(address string) error {
-	return server.router.Run()
+	return server.router.Run(address)
 }
 
 func errorResponse(err error) gin.H {

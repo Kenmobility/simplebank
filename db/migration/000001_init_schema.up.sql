@@ -4,7 +4,8 @@ CREATE TABLE "accounts" (
   "balance" bigint NOT NULL,
   "currency" varchar NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now()),
-  "last_updated_at" timestamptz NOT NULL DEFAULT (now())
+  "last_updated_at" timestamptz NOT NULL DEFAULT (now()),
+  "last_deleted_at" timestamptz
 );
 
 CREATE TABLE "entries" (

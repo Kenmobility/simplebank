@@ -52,3 +52,6 @@ jobs:
 
     - name: Test
       run: make test
+
+    - name: sqlc
+      run: make sqlc

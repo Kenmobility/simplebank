@@ -41,6 +41,10 @@ func (maker PasetoMaker) CreateToken(username string, duration time.Duration) (s
 	return token, nil
 }
 
+func (m PasetoMaker) HashToken(token string) bool {
+	return false
+}
+
 // VerifyToken checks if the token is valid or not
 func (maker PasetoMaker) VerifyToken(token string) (*Payload, error) {
 	payload := new(Payload) //payload := &Payload{}
